@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <link rel="stylesheet" href="XMAS-hackathon.css">
+  <link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&display=swap" rel="stylesheet">
+
+  
+</head>
+<body>
+
+  <div class = "header">
+    <div class = "header-left">
+      <p class = "company-name">Santa's Workshop</p>
+    </div>
+    <div class = "header-right">
+      <p class = "header-text"> <a href="#games-section">Games</a></p>
+      <p class = "header-text"><a href="#about-me-section">About me</a></p>
+    </div>
+  </div>
+
+
+  <div class = "top-part">
+    <div class = "big-header-container">
+      <h1 class = "big-header">Christmas Games!</h1>
+    </div>
+    
+
+  </div>
+
+  <div class = "bottom-part">
+    <div class = "cookie-clicker-game" id="games-section">
+      <img class = "santa-hat" src="santa-claus-cartoon-hat-free-png.webp">
+      <h1 class = "game-title">Santa's Cookie Clicker!</h1>
+      <div class = "bottom-part-cookie">
+        
+        <p class = "js-num-of-cookies">0 Cookies!</p>
+        <p class = "js-cookie-info-per-second">0 🍪/s</p>
+        <p></p>
+        <p class = "js-cookie-info-per-click">1 🍪/👆</p>
+        <button class = "reset-cookies" onclick="reset_progress()">⚠️Reset⚠️ <br> Progress</button>
+        <button class = "cookie-button" onclick="cookie_clicking()">
+          <img class = "cookie-image" src="xmasting/cookie-png-transparent-images-background-23.png">
+        </button>
+
+
+
+
+        <div class = "upgrade-row">
+
+          <div class = "upgrade-container">
+          <p class = "upgrade-stats">25🍪</p>
+          <p class = "upgrade-stats">1🍪/s</p>
+          <button class = "upgrade1" onclick = "time_upgrade(25,1)">🧝</button>
+          
+        </div>
+
+
+
+          <div class = "upgrade-container">
+          <p class = "upgrade-stats">200🍪</p>
+          <p class = "upgrade-stats">1🍪/👆</p>
+          <button class = "upgrade2" onclick="click_upgrade(200,1)" >👆</button>
+          
+        </div>
+
+
+
+          <div class = "upgrade-container">
+          <p class = "upgrade-stats">5000🍪</p>
+          <p class = "upgrade-stats">2🍪/s</p>
+          <p class = "upgrade-stats">5🍪/👆</p>
+          <button class = "upgrade3" onclick="both_upgrade(5000, 2, 5)" >☃️</button>
+          
+        </div>
+
+
+          <div class = "upgrade-container">
+          <p class = "upgrade-stats">100000🍪</p>
+          <p class = "upgrade-stats">200🍪/👆</p>
+          <button class = "upgrade4" onclick = "click_upgrade(100000,200)">🎅</button>
+          
+        </div>
+
+        </div>
+        
+        
+          
+      </div>
+      </div>
+
+      <div class = "elf-attack-game">
+      <img class = "elf" src="xmasting/elf-with-present.png">
+      <h1 class = "game-title">Elf Attack!</h1>
+      <div class = "bottom-part-elf">
+        <p class = "elf-highscore">Highscore: 0</p>
+        <p class = "js-num-of-elves">0 Elves</p>
+        <div class = "start-button-container">
+          <button class = "start-button" onclick="startElfGame()">Start</button>
+        </div>
+        <div class = "js-timer">
+          30
+        </div>
+        <div class = "elf-spawn-container">
+        </div>
+        
+      </div>
+      
+      </div>
+
+      <div class = "under-construction-game">
+      <img class = "elf" src="xmasting/construction.png" style="top:-140px;">
+      <h1 class = "game-title">Under Construction...</h1>
+      
+      </div>
+
+      
+      
+
+    </div>
+  </div>
+
+  <hr>
+
+  <div class = "about-me-container" id="about-me-section">
+    <h2 class = "about-me">About me</h2>
+    <p class = "about-me-desc">Hello i made this website for the computing christmas hackathon.
+       I decided to focus on games cuz they are fun, and also to improve my Javascript 👍. 
+      Erm idk what else to put here so i will put some filler text so i look more interesting. Lorem, ipsum dolor sit amet consectetur adipisicing elit. A est reiciendis minima at delectus asperiores distinctio cumque alias sapiente, optio temporibus aliquam in ex beatae molestiae incidunt cupiditate unde commodi quos voluptates. Molestias ad reiciendis quo magnam laudantium rem vero accusamus inventore eaque modi perferendis ullam dolores eius, dolorum nam aspernatur adipisci! Sunt facilis labore nobis rem. Cupiditate dicta nesciunt velit repellat doloribus quae, beatae laborum perferendis temporibus accusantium ullam sed ex ipsam aut maxime iste! Minima doloremque quas nam hic nostrum atque deleniti esse suscipit? Tenetur ab numquam at rerum voluptas repellendus, magni dolorum repudiandae ipsum non reiciendis animi...And thats how i ended world hunger.</p>
+  </div>
+
+  <script>
+    window.onload = () => {
+      loadCookieGame();
+      loadElfHighscore();
+      updateHighscoreDisplay();
+    }
+
+
+    let num_of_cookies = 0;
+    let cookie_per_click = 1
+    let additional_cookies_per_second = 0;
+
+    let elf_highscore = 0;
+
+    let timer_value;
+
+    let elves_caught = 0;
+
+    setInterval(automatic_cookies, 1000);
+
+
+    
+
+
+    function cookie_update() {
+      let cookies_numElem = document.querySelector('.js-num-of-cookies');
+      cookies_numElem.innerHTML = `${num_of_cookies} Cookies!`;
+
+      let cookie_info_per_secondElem = document.querySelector('.js-cookie-info-per-second');
+      cookie_info_per_secondElem.innerHTML = `${additional_cookies_per_second} 🍪/s`;
+
+      let cookie_info_per_clickElem = document.querySelector('.js-cookie-info-per-click');
+      cookie_info_per_clickElem.innerHTML = `${cookie_per_click} 🍪/👆`;
+
+      saveCookieGame()
+
+
+    }
+
+    function cookie_clicking() {
+      
+      num_of_cookies +=cookie_per_click;
+      cookie_update();
+    }
+
+    function automatic_cookies () {
+      num_of_cookies += additional_cookies_per_second;
+      cookie_update();
+
+    }
+
+    function time_upgrade (cost, reward) {
+      if (num_of_cookies >= cost) {
+        num_of_cookies -= cost;
+        additional_cookies_per_second += reward;
+        cookie_update();
+      }
+    }
+
+    function click_upgrade (cost, reward) {
+      if (num_of_cookies >= cost) {
+        num_of_cookies -= cost;
+        cookie_per_click +=reward;
+        cookie_update();
+      }
+    }
+
+    function both_upgrade(cost, reward_per_sec, reward_per_click) {
+      if (num_of_cookies > cost) {
+        time_upgrade(cost / 2, reward_per_sec);
+        click_upgrade(cost / 2, reward_per_click);
+
+      }
+      
+    }
+
+    function reset_progress() {
+      num_of_cookies = 0;
+      additional_cookies_per_second = 0;
+      cookie_per_click = 1;
+      localStorage.clear();
+      cookie_update();
+
+    }
+
+    function saveCookieGame() {
+      localStorage.setItem('num_of_cookies', num_of_cookies);
+      localStorage.setItem('cookies_per_click', cookie_per_click);
+      localStorage.setItem('cookies_per_second', additional_cookies_per_second);
+    }
+
+    function loadCookieGame() {
+      if (localStorage.getItem('num_of_cookies')) {
+        num_of_cookies = parseInt(localStorage.getItem('num_of_cookies'))
+      }
+
+      if (localStorage.getItem('cookies_per_second')) {
+        additional_cookies_per_second = parseInt(localStorage.getItem('cookies_per_second'))
+      }
+
+      if (localStorage.getItem('cookies_per_click')) {
+        cookie_per_click = parseInt(localStorage.getItem('cookies_per_click'))
+      }
+    }
+
+    function saveElfHighscore() {
+      if (elves_caught > elf_highscore){
+        elf_highscore = elves_caught;
+        localStorage.setItem('elf-highscore', elf_highscore);
+        updateHighscoreDisplay();
+      }
+    }
+
+    function loadElfHighscore() {
+      if (localStorage.getItem('elf-highscore')) {
+        elf_highscore = parseInt(localStorage.getItem('elf-highscore'))
+      }
+
+    }
+
+    function updateHighscoreDisplay() {
+      let highscoreElem = document.querySelector('.elf-highscore');
+      highscoreElem.innerHTML = `Highscore: ${elf_highscore}`;
+    }
+
+
+    function spawnelf() {
+      const elf_container = document.querySelector('.elf-spawn-container')
+
+
+      const elf = document.createElement('img');
+      elf.src = "../xmasting/elf-for-elf-game.png"
+      elf.classList.add('evil-elf');
+
+      const x = Math.random() * elf_container.offsetWidth  ;
+      const y = Math.random() * elf_container.offsetHeight;
+
+      elf.style.left = x + 'px';
+      elf.style.top = y + 'px';
+
+      elf.onclick = () => elf_click_function(elf)
+      elf_container.appendChild(elf);
+
+    }
+    
+
+
+    function elf_click_function(elf) {
+      elves_caught ++;
+      document.querySelector('.js-num-of-elves').innerHTML = `${elves_caught} Elves`;
+      elf.remove()
+      spawnelf()
+    }
+
+    function startElfGame() {
+      const elfGame = document.querySelector('.elf-attack-game');
+      const start_button = document.querySelector('.start-button');
+      const timer = document.querySelector('.js-timer');
+
+      start_button.style.display = 'none';
+      timer.style.display = "inline-block";
+
+      elves_caught = 0;
+      document.querySelector('.js-num-of-elves').innerHTML = `${elves_caught} Elves`
+      
+      const container = document.querySelector('.elf-spawn-container');
+
+
+      timer_value = 30;
+
+      
+      spawnelf();
+      timerInterval = setInterval(timerCountdown, 1000)
+
+      elfGame.classList.add('running');
+
+      
+        
+      }
+    
+
+    function timerCountdown() {
+      timer_value --;
+      document.querySelector('.js-timer').innerHTML = timer_value;
+
+      if (timer_value <= 0) {
+        endElfGame();
+      }
+    }
+
+    function endElfGame() {
+      const elfGame = document.querySelector('.elf-attack-game')
+      const start_button = document.querySelector('.start-button');
+      const timer = document.querySelector('.js-timer');
+      start_button.style.display = 'inline-block';
+      timer.style.display = 'none';
+      document.querySelector('.elf-spawn-container').innerHTML = "";
+      clearInterval(timerInterval);
+      saveElfHighscore();
+
+      elfGame.classList.remove('running');
+
+    }
+
+    
+
+    
+
+
+    
+    
+  </script>
+
+
+
+  
+</body>
+</html>
